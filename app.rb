@@ -24,12 +24,18 @@ get "/new" do
 end
 
 get "/:title" do
-  @title = params[:title].capitalize
+  @title = params[:title]
   @content = page_content(@title)
   erb :show
 end
 
-#{"title"=>"Title", "content"=>"This is the content of a new wiki page"}
+get "/:title/edit" do
+  @title = params[:title]
+  @content = page_content(@title)
+  erb :edit
+end
+
 post "/create" do
-  params.inspect
+  save_content(params[:title], params[:content])
+  redirect URI.escape("/#{params[:title]}")
 end
